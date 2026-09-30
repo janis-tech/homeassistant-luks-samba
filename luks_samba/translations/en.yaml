@@ -1,0 +1,4 @@
+configuration:
+  log_level:
+    name: Log level
+    description: How much the panel backend logs. Disks, shares and users are managed in the panel.

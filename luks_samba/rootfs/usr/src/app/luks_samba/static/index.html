@@ -1,0 +1,79 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Disks &amp; Shares</title>
+  <link rel="stylesheet" href="static/style.css">
+</head>
+<body>
+  <header>
+    <h1>Disks &amp; Shares</h1>
+    <nav id="tabs">
+      <button data-tab="disks" class="active">Disks</button>
+      <button data-tab="shares">Shares</button>
+      <button data-tab="users">Users</button>
+      <button data-tab="settings">Settings</button>
+    </nav>
+  </header>
+
+  <div id="banner" class="banner" hidden></div>
+
+  <main>
+    <section id="tab-disks">
+      <div id="volumes" class="cards"></div>
+      <h2>Detected disks</h2>
+      <label class="inline"><input type="checkbox" id="show-system"> Show system disk</label>
+      <div class="table-wrap"><table id="disk-table"></table></div>
+    </section>
+
+    <section id="tab-shares" hidden>
+      <div class="toolbar"><button class="primary" id="add-share">Add share</button></div>
+      <div id="shares" class="cards"></div>
+    </section>
+
+    <section id="tab-users" hidden>
+      <div class="toolbar"><button class="primary" id="add-user">Add user</button></div>
+      <div class="table-wrap"><table id="user-table"></table></div>
+    </section>
+
+    <section id="tab-settings" hidden>
+      <form id="settings-form" class="form card">
+        <label>Workgroup <input name="workgroup" maxlength="15" required></label>
+        <label>Server description <input name="server_string" maxlength="64"></label>
+        <label>Allowed hosts
+          <input name="hosts_allow">
+          <small>Space-separated networks allowed to connect. Leave empty to allow everyone.</small>
+        </label>
+        <label>Minimum SMB protocol
+          <select name="min_protocol">
+            <option value="SMB2_10">SMB2_10 (recommended)</option>
+            <option value="SMB3_00">SMB3_00</option>
+            <option value="SMB3_11">SMB3_11</option>
+            <option value="SMB2_02">SMB2_02</option>
+            <option value="NT1">NT1 / SMB1 (insecure, old devices only)</option>
+          </select>
+        </label>
+        <label class="inline"><input type="checkbox" name="macos"> macOS compatibility (Apple extensions)</label>
+        <label class="inline"><input type="checkbox" name="veto_junk"> Hide and clean up ._*, .DS_Store, Thumbs.db</label>
+        <div class="actions"><button class="primary" type="submit">Save</button></div>
+      </form>
+    </section>
+  </main>
+
+  <dialog id="dialog">
+    <form method="dialog" id="dialog-form">
+      <h3 id="dialog-title"></h3>
+      <div id="dialog-body"></div>
+      <p id="dialog-error" class="error" hidden></p>
+      <div class="actions">
+        <button type="button" id="dialog-cancel">Cancel</button>
+        <button type="submit" class="primary" id="dialog-ok">OK</button>
+      </div>
+    </form>
+  </dialog>
+
+  <div id="toast" hidden></div>
+  <script src="static/app.js"></script>
+</body>
+</html>

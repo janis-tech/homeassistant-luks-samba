@@ -1,0 +1,51 @@
+name: LUKS Disks & Samba
+version: "0.1.2"
+slug: luks_samba
+description: Unlock LUKS-encrypted disks and share folders over Samba, managed from a Home Assistant panel
+url: https://github.com/janislauskis/homeassistant-samba-luks
+arch:
+  - aarch64
+  - amd64
+init: false
+startup: services
+boot: auto
+
+# Samba must be reachable on the LAN (445/139).
+host_network: true
+# Mounts are made in the host's mount namespace (like drive.sh did via nsenter)
+# so /media/<name> is visible to Home Assistant and every other app.
+# host_pid and full_access both require Protection mode to be OFF.
+host_pid: true
+full_access: true
+apparmor: false
+udev: true
+# full_access does not always make the container privileged, so request the
+# capabilities we rely on explicitly:
+#   SYS_ADMIN   mount devtmpfs/filesystems, setns() into the host (nsenter)
+#   SYS_PTRACE  read /proc/1/ns/* and other host processes' /proc entries
+#   SYS_RAWIO / DAC_READ_SEARCH  raw block device access for blkid/cryptsetup
+privileged:
+  - SYS_ADMIN
+  - SYS_PTRACE
+  - SYS_RAWIO
+  - DAC_READ_SEARCH
+
+ingress: true
+ingress_port: 0
+panel_icon: mdi:harddisk
+panel_title: Disks & Shares
+panel_admin: true
+
+map:
+  - homeassistant_config:rw
+  - all_addon_configs:rw
+  - addons:rw
+  - backup:rw
+  - media:rw
+  - share:rw
+  - ssl:rw
+
+options:
+  log_level: info
+schema:
+  log_level: list(debug|info|warning|error)
