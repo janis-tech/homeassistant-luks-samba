@@ -1,5 +1,9 @@
 # Changelog
 
+## 0.1.3
+
+- Panel layout uses the full page width.
+
 ## 0.1.2
 
 - Fix user access selectors not rendering in the share dialog.
